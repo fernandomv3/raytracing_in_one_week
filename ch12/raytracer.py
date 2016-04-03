@@ -14,7 +14,7 @@ from material import Dielectric
 def color(r,world,depth):
   rec = world.hit(r,0.001,float('inf'))
   if rec is not None:
-    if depth >= 16:
+    if depth >= 50:
       return Vec3(0,0,0)
     attenuation,scattered =rec["material"].scatter(r,rec)
     if attenuation is not None:
@@ -45,9 +45,9 @@ def random_scene():
   l.append(Sphere(Vec3(4,1,0),1.0,Metal(Vec3(0.7,0.6,0.5),0.0)))
   return HitableList(l)
 def main():
-  nx = 200
-  ny = 150
-  ns = 2
+  nx = 800
+  ny = 600
+  ns = 16
   print("P3\n",nx," ",ny,"\n255")
 
   world = random_scene()
