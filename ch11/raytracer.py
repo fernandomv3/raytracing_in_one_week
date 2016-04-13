@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from vec3 import Vec3
 from ray import Ray
 from math import sqrt
@@ -29,7 +28,7 @@ def color(r,world,depth):
 def main():
   nx = 200
   ny = 100
-  ns = 100
+  ns = 16
   print("P3\n",nx," ",ny,"\n255")
 
   l = []
