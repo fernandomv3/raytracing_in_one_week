@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-
+#!/usr/bin/env python
+from __future__ import print_function, division
 from vec3 import Vec3
 from ray import Ray
 from math import sqrt
@@ -45,10 +45,10 @@ def random_scene():
   l.append(Sphere(Vec3(4,1,0),1.0,Metal(Vec3(0.7,0.6,0.5),0.0)))
   return HitableList(l)
 def main():
-  nx = 800
-  ny = 600
-  ns = 16
-  print("P3\n",nx," ",ny,"\n255")
+  nx = 200
+  ny = 100
+  ns = 100
+  print ("P3\n",nx," ",ny,"\n255")
 
   world = random_scene()
 
@@ -72,7 +72,7 @@ def main():
       ir = int(255.99*col[0])
       ig = int(255.99*col[1])
       ib = int(255.99*col[2])
-      print(ir," ",ig," ",ib)
+      print (ir," ",ig," ",ib)
 
 if __name__ == '__main__':
   main()

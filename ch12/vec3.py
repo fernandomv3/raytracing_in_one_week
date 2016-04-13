@@ -1,14 +1,14 @@
-import math
+from math import sqrt
 
 class Vec3:
   def __init__(self,e0=0.0,e1=0.0,e2=0.0):
-    self.e = [0.0,0.0,0.0]
-    self.e[0] = e0
-    self.e[1] = e1
-    self.e[2] = e2
+    self.e = [e0,e1,e2]
 
   def __eq__(self,other):
     return (self.e[0] == other.e[0]) and (self.e[1] == other.e[1]) and (self.e[2] == other.e[2])
+
+  def __ne__(self,other):
+    return (self.e[0] != other.e[0]) or (self.e[1] != other.e[1]) or (self.e[2] != other.e[2])
 
   def __getattr__(self,name):
     if name in ['x','r']:
@@ -34,7 +34,7 @@ class Vec3:
     return self
 
   def length(self):
-    return math.sqrt((self.e[0]*self.e[0]) + (self.e[1]*self.e[1]) + (self.e[2]*self.e[2]))
+    return sqrt((self.e[0]*self.e[0]) + (self.e[1]*self.e[1]) + (self.e[2]*self.e[2]))
 
   def squared_length(self):
     return (self.e[0]*self.e[0]) + (self.e[1]*self.e[1]) + (self.e[2]*self.e[2])
@@ -67,95 +67,59 @@ class Vec3:
     dt = Vec3.dot(uv,n)
     discriminant = 1.0 - (ni_over_nt*ni_over_nt*(1-dt*dt))
     if discriminant > 0:
-      return (ni_over_nt*(uv- (n*dt))) - (n*math.sqrt(discriminant))
+      return (ni_over_nt*(uv- (n*dt))) - (n*sqrt(discriminant))
     else:
       return None 
 
-  def __iadd__(self,other):
+  def __add__(self, other):
     if isinstance(other,self.__class__):
-      self.e[0] += other.e[0]
-      self.e[1] += other.e[1]
-      self.e[2] += other.e[2]
-      return self
-    elif isinstance(other,int) or isinstance(other,float):
-      self.e[0] += other
-      self.e[1] += other
-      self.e[2] += other
-      return self
+      return Vec3(self.e[0] + other.e[0],self.e[1]+other.e[1],self.e[2]+other.e[2])
+    elif isinstance(other,float) or isinstance(other,int):
+      return Vec3(self.e[0] + other, self.e[3] + other, self.e[2] + other)
     else:
       raise TypeError("unsupported operand type(s) for +: '{}' and '{}'").format(self.__class__, type(other))
 
-  def __add__(self, other):
-    result = Vec3(self.e[0],self.e[1],self.e[2])
-    result += other
-    return result
+  __radd__ = __add__
 
-  def __radd__(self,other):
-    return self.__add__(other)
-
-  def __isub__(self,other):
+  def __sub__(self, other):
     if isinstance(other,self.__class__):
-      self.e[0] -= other.e[0]
-      self.e[1] -= other.e[1]
-      self.e[2] -= other.e[2]
-      return self
-    elif isinstance(other,int) or isinstance(other,float):
-      self.e[0] -= other
-      self.e[1] -= other
-      self.e[2] -= other
-      return self
+      return Vec3(self.e[0] - other.e[0],self.e[1] - other.e[1],self.e[2] - other.e[2])
+    elif isinstance(other,float) or isinstance(other,int):
+      return Vec3(self.e[0] - other,self.e[1] - other,self.e[2] - other)
+    raise TypeError("unsupported operand type(s) for -: '{}' and '{}'").format(self.__class__, type(other))
+
+  def __rsub__(self,other):
+    if isinstance(other,self.__class__):
+      return Vec3(other.e[0] - self.e[0],other.e[1] - self.e[1],other.e[2] - self.e[2])
+    elif isinstance(other,float) or isinstance(other,int):
+      return Vec3(other - self.e[0],other - self.e[1],other - self.e[2])
     else:
       raise TypeError("unsupported operand type(s) for -: '{}' and '{}'").format(self.__class__, type(other))
 
-  def __sub__(self, other):
-    result = Vec3(self.e[0],self.e[1],self.e[2])
-    result -= other
-    return result
-
-  def __rsub__(self,other):
-    return  -(self.__sub__(other))
-
-  def __imul__(self,other):
-    if isinstance(other,self.__class__):
-      self.e[0] *= other.e[0]
-      self.e[1] *= other.e[1]
-      self.e[2] *= other.e[2]
-      return self
-    elif isinstance(other,int) or isinstance(other,float):
-      self.e[0] *= other
-      self.e[1] *= other
-      self.e[2] *= other
-      return self
+  def __mul__(self, other):
+    if isinstance(other,float) or isinstance(other,int):
+      return Vec3(self.e[0]*other, self.e[1]*other, self.e[2]*other)
+    elif isinstance(other,self.__class__):
+      return Vec3(self.e[0] * other.e[0],self.e[1]*other.e[1],self.e[2]*other.e[2])
     else:
       raise TypeError("unsupported operand type(s) for *: '{}' and '{}'").format(self.__class__, type(other))
 
-  def __mul__(self, other):
-    result = Vec3(self.e[0],self.e[1],self.e[2])
-    result *= other
-    return result
-
-  def __rmul__(self,other):
-    return self.__mul__(other)
-
-  def __itruediv__(self,other):
-    if isinstance(other,self.__class__):
-      self.e[0] /= other.e[0]
-      self.e[1] /= other.e[1]
-      self.e[2] /= other.e[2]
-      return self
-    elif isinstance(other,int) or isinstance(other,float):
-      self.e[0] /= other
-      self.e[1] /= other
-      self.e[2] /= other
-      return self
-    else:
-      raise TypeError("unsupported operand type(s) for +: '{}' and '{}'").format(self.__class__, type(other))
+  __rmul__ = __mul__
 
   def __truediv__(self, other):
-    result = Vec3(self.e[0],self.e[1],self.e[2])
-    result /= other
-    return result
+    if isinstance(other,self.__class__):
+      return Vec3(self.e[0] / other.e[0],self.e[1] / other.e[1], self.e[2] / other.e[2])
+    elif isinstance(other,float) or isinstance(other,int):
+      return Vec3(self.e[0] / other,self.e[1] / other,self.e[2] / other)
+    raise TypeError("unsupported operand type(s) for /: '{}' and '{}'").format(self.__class__, type(other))
 
   def __rtruediv__(self,other):
-    self.e = [1/self.e[0],1/self.e[1],1/self.e[2]]
-    return self.__mul__(other)
+    if isinstance(other,self.__class__):
+      return Vec3(other.e[0] / self.e[0],other.e[1] / self.e[1],other.e[2] / self.e[2])
+    elif isinstance(other,float) or isinstance(other,int):
+      return Vec3(other / self.e[0],other / self.e[1],other / self.e[2])
+    else:
+      raise TypeError("unsupported operand type(s) for /: '{}' and '{}'").format(self.__class__, type(other))
+
+  __div__ = __truediv__
+  __rdiv__ = __rtruediv__
