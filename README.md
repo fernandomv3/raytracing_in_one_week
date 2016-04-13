@@ -10,7 +10,7 @@ The code was written while learning raytracing from the book, even if I tried to
 
 The code was written in python3, it is compatible with python2
 
-Since I tried to use pure pyhton3 and the standart library (No external libraries), the code outputs the image in ppm format directly to standart input, be sure to redirect stdout to a file in your console e.g 
+Since I tried to use pure pyhton3 and the standard library (No external libraries), the code outputs the image in ppm format directly to standard input, be sure to redirect stdout to a file in your console e.g 
 ```bash
 ~$ python3 raytracer.py > image.ppm
 ```
