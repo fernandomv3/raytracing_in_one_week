@@ -8,11 +8,11 @@ Every chapter in the book has a directory with the code that generates the final
 ##Notes
 The code was written while learning raytracing from the book, even if I tried to make the code efficent or "pythonic", there's still room for improvement so feel free to submit pull requests.
 
-The code was written in python3, it is not compatible with python2
+The code was written in python3, it is compatible with python2
 
 Since I tried to use pure pyhton3 and the standart library (No external libraries), the code outputs the image in ppm format directly to standart input, be sure to redirect stdout to a file in your console e.g 
 ```bash
 ~$ python3 raytracer.py > image.ppm
 ```
 
-Another thing to be aware of is that this raytracer is really slow.
+Another thing to be aware of is that this raytracer is really slow. You can gain a significant boost in performance by using PyPy.
